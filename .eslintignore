@@ -1,0 +1,6 @@
+# for Typings
+**/*.d.ts
+
+# Webpack config
+build
+config

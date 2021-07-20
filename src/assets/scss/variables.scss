@@ -1,0 +1,344 @@
+/*--------- COLORS ---------*/
+$black: #000000;
+$white: #ffffff;
+
+$core: #7471ff;
+$gradient-save: linear-gradient(
+    115.59deg,
+    rgba(224, 162, 244, 0.5) 2.03%,
+    rgba(116, 95, 255, 0.5) 62.13%
+  ),
+  conic-gradient(
+    from -46.03deg at -9.18% 53.93%,
+    rgba(130, 158, 254, 0.687892) -2.97deg,
+    rgba(124, 139, 255, 0.75) 107.49deg,
+    rgba(142, 132, 251, 0.9) 139.65deg,
+    rgba(116, 113, 255, 0.9) 183.96deg,
+    rgba(119, 123, 255, 0.76) 308.57deg,
+    rgba(130, 158, 254, 0.687892) 357.03deg,
+    rgba(124, 139, 255, 0.75) 467.49deg
+  );
+
+$primary-gradient: linear-gradient(180deg, #4848ff 0%, #9686ff 100%);
+$primary-sub: #6807f9;
+$primary-highlight-2: #582fff;
+$primary-selected: #b8b8ff;
+
+$box-grey: #f2f2f6;
+$box-border: rgba(#00005a, 0.15);
+$box-border-2: #d6d4dc;
+$box-highlight: rgba(#7471ff, 0.2);
+$box-hover: rgba(#7471ff, 0.1);
+$box-greyout: #3A3E48;
+
+$text-darken: #0f172c;
+$text-lighten: #696b8c;
+$text-lighten-2: #9595b0;
+$text-lighten-3: #a1a2a3;
+$text-white: #ffffff;
+$text-sub: #b8b8fc;
+
+$navbar-normal: #464a58;
+$navbar-selected: #b8b8ff;
+$navbar-unselected: #696b8c;
+
+$status-cancelled: #a1a2a3;
+$status-notstarted: #fbb44c;
+$status-hold: #ff6b6b;
+$status-progress: #b53cff;
+$status-progress-2: #4ac4bc;
+$status-completed: #7471ff;
+
+$icon-grey: #c4c4c4;
+
+/*--------- FONT ---------*/
+
+$bold: 700;
+$medium: 500;
+
+@mixin font-set($font-size, $font-weight) {
+  font-size: $font-size;
+  font-weight: $font-weight;
+}
+
+@mixin bold($font-size) {
+  @include font-set(#{$font-size}px, $bold);
+}
+
+@mixin medium($font-size) {
+  @include font-set(#{$font-size}px, $medium);
+}
+
+/*--------- MIXINS ---------*/
+
+@mixin prefix($name, $value) {
+  @each $vendor in ('-webkit-', '-moz-', '-ms-', '-o-', '') {
+    #{$vendor}#{$name}: #{$value};
+  }
+}
+
+@mixin vertical-center() {
+  @include prefix(display, flex);
+  @include prefix(flex-direction, column);
+  // @include prefix(align-items, center);
+  @include prefix(justify-content, center);
+}
+@mixin center-center() {
+  @include prefix(display, flex);
+  @include prefix(align-items, center);
+  @include prefix(justify-content, center);
+}
+
+@mixin flex($justify: flex-start, $dir: row, $wrap: wrap) {
+  @include prefix(display, flex);
+  @include prefix(justify-content, $justify);
+  @include prefix(flex-direction, $dir);
+  @include prefix(flex-wrap, $wrap);
+}
+
+@mixin position($position, $args) {
+  @each $o in top right bottom left {
+    $i: index($args, $o);
+
+    @if $i and $i + 1 <= length($args) and type-of(nth($args, $i + 1)) == number
+    {
+      #{$o}: nth($args, $i + 1);
+    }
+  }
+  position: $position;
+}
+
+@mixin size($args) {
+  @each $o in width height {
+    $i: index($args, $o);
+
+    @if $i and $i + 1 <= length($args) {
+      #{$o}: nth($args, $i + 1);
+    }
+  }
+}
+
+@mixin set-transition(
+  $type,
+  $duration: 300ms,
+  $timing-function: ease,
+  $delay: 0s
+) {
+  transition: $type $duration $timing-function;
+  -moz-transition-duration: $duration;
+  -webkit-transition-duration: $duration;
+  -o-transition-duration: $duration;
+  transition-duration: $duration;
+  -moz-transition-timing-function: $timing-function;
+  -webkit-transition-timing-function: $timing-function;
+  -o-transition-timing-function: $timing-function;
+  transition-timing-function: $timing-function;
+  transition-delay: $delay;
+  -moz-transition-delay: $delay;
+  -webkit-transition-delay: $delay;
+  -o-transition-delay: $delay;
+}
+
+@mixin border-radius-set($args) {
+  @each $o in top-left top-right bottom-left bottom-right {
+    $i: index($args, $o);
+
+    @if $i and $i + 1 <= length($args) {
+      border-#{$o}-radius: nth($args, $i + 1);
+    }
+  }
+}
+
+@mixin border-set($width: 1px, $color: #{$box-border}, $radius: 0px) {
+  border-width: $width;
+  border-color: $color;
+  border-radius: $radius;
+  border-style: solid;
+}
+
+@mixin absolute($args) {
+  @include position(absolute, $args);
+}
+
+@mixin fixed($args) {
+  @include position(fixed, $args);
+}
+
+@mixin relative($args: '') {
+  @include position(relative, $args);
+}
+
+@mixin sticky() {
+  @include position(sticky);
+}
+
+/*--------- ELEVATION ---------*/
+
+@mixin elevation-box-main() {
+  box-shadow: 0px 4px 17px rgba(0, 0, 0, 0.14), 0px 1px 22px rgba(0, 0, 0, 0.12),
+    0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+@mixin elevation-box-sub() {
+  box-shadow: 0px 0px 9px 3px rgba(204, 204, 204, 0.5);
+}
+
+@mixin elevation-hover-blue() {
+  box-shadow: 0px 2px 4px rgba(116, 95, 255, 0.3),
+    0px 2px 10px rgba(116, 95, 255, 0.3);
+}
+
+@mixin elevation-hover-red() {
+  box-shadow: 0px 2px 4px rgba(255, 107, 107, 0.3),
+    0px 2px 10px rgba(255, 107, 107, 0.3);
+}
+
+/*--------- Buttons ---------*/
+
+@mixin button-sm() {
+  width: 102px;
+  height: 28px;
+  border-radius: 4px;
+  border: solid 1px transparent;
+  text-align: center;
+  span {
+    @include bold(12);
+    line-height: 24px;
+  }
+}
+
+@mixin button-md() {
+  width: 100px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px transparent;
+  text-align: center;
+  span {
+    @include bold(14);
+    line-height: 32px;
+  }
+}
+
+@mixin button-lg() {
+  width: 124px;
+  height: 48px;
+  border-radius: 8px;
+  border: solid 1px transparent;
+  text-align: center;
+  span {
+    @include bold(16);
+    line-height: 48px;
+  }
+}
+
+@mixin button-login($size: 'md') {
+  @if $size == 'sm' {
+    @include button-sm;
+  } @else if $size == 'md' {
+    @include button-md;
+  } @else if $size == 'lg' {
+    @include button-lg;
+  } @else {
+    @include size($size);
+  }
+  background-color: $navbar-selected;
+  border-color: $navbar-selected;
+  color: $white;
+}
+
+@mixin button-normal($size: 'md') {
+  @if $size == 'sm' {
+    @include button-sm;
+  } @else if $size == 'md' {
+    @include button-md;
+  } @else if $size == 'lg' {
+    @include button-lg;
+  } @else {
+    @include size($size);
+  }
+  background-color: $box-highlight;
+  border-color: rgba($core, 0.5);
+  color: $core;
+
+  &:hover {
+    background-color: $box-highlight;
+    border-color: rgba($core, 1);
+    color: $core;
+  }
+
+  &.selected {
+    background-color: $core;
+    border-color: rgba($core, 1);
+    color: $white;
+  }
+}
+
+@mixin button-highlight($size: 'md') {
+  @if $size == 'sm' {
+    @include button-sm();
+  } @else if $size == 'md' {
+    @include button-md();
+  } @else if $size == 'lg' {
+    @include button-lg;
+  } @else {
+    @include size($size);
+  }
+  background-color: $primary-sub;
+  border-color: $primary-sub;
+  color: $white;
+}
+@mixin button-back($size: 'md') {
+  @if $size == 'sm' {
+    @include button-sm();
+  } @else if $size == 'md' {
+    @include button-md();
+  } @else if $size == 'lg' {
+    @include button-lg;
+  } @else {
+    @include size($size);
+  }
+  background-color: $box-grey;
+  border-color: $box-border;
+  color: $text-lighten-2;
+}
+@mixin button-download($size: 'md') {
+  @if $size == 'sm' {
+    @include button-sm();
+  } @else if $size == 'md' {
+    @include button-md();
+  } @else if $size == 'lg' {
+    @include button-lg;
+  } @else {
+    @include size($size);
+  }
+  border-color: $text-lighten;
+  background-color: $white;
+  color: $text-lighten;
+}
+
+@mixin button-delete($size: 'md') {
+  @if $size == 'sm' {
+    @include button-sm();
+  } @else if $size == 'md' {
+    @include button-md();
+  } @else if $size == 'lg' {
+    @include button-lg;
+  } @else {
+    @include size($size);
+  }
+  background-color: rgba($status-hold, 0.2);
+  border-color: rgba($status-hold, 0.2);
+  color: $status-hold;
+
+  &:hover {
+    background-color: rgba($status-hold, 0.2);
+    border-color: rgba($status-hold, 0.5);
+    color: $status-hold;
+  }
+
+  &.selected {
+    background-color: $status-hold;
+    border-color: $status-hold;
+    color: $white;
+  }
+}
