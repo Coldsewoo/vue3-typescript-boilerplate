@@ -1,7 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-const routes: Array<any> = [
- 
+import defaultLayout from '/Layouts/defaultLayout.vue'
+
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    component: defaultLayout,
+    children: [],
+  },
 ]
 
 const router = createRouter({
